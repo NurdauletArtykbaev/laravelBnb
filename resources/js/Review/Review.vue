@@ -1,5 +1,7 @@
 <template>
-    <div class="row">
+    <div >
+        <div class="row" v-if="error">Unknown error has occured, please try again later!</div>
+        <div class="row" v-else>
         <div
             :class="[
                 { 'col-md-4': loading || !alredyReviewed },
@@ -9,7 +11,7 @@
             <div class="card">
                 <div class="card-body">
                     <div v-if="loading">Loading.....</div>
-                    <div v-else>
+                    <div v-if="hasBooking">
                         <p>
                             Stayed at
                             <router-link
@@ -67,11 +69,14 @@
             </div>
         </div>
         </div>
+        </div>
+        
     </div>
 
     <!-- </div> -->
 </template>
 <script>
+import {is404} from './../components/is404'
 export default {
     data() {
         return {
@@ -83,7 +88,8 @@ export default {
             },
             loading: false,
             existingReview: null,
-            booking: null
+            booking: null,
+            error:false
         };
     },
     // methods:{
@@ -100,19 +106,19 @@ export default {
                 (this.existingReview = response.data),
                     console.loading(this.existingReview);
             })
-            .catch(error => {
-                if (
-                    error.response &&
-                    error.response.status &&
-                    404 === error.response.status
-                ) {
+            .catch(err => {
+                if (is404(err)) {
                     //2. Fetch a booking by a review key
                     return axios
                         .get(`/api/booking-by-review/${this.$route.params.id}`)
                         .then(response => {
                             this.booking = response.data;
+                        })
+                        .catch(err => {
+                            this.error = !is404(err);
                         });
                 }
+                this.error = true
             })
             .then(response => (this.loading = false));
         //3. Store the review
