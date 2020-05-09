@@ -11,7 +11,7 @@
                     <div v-if="loading">Loading.....</div>
                     <div v-else>
                         <p>
-                            Stayed
+                            Stayed at
                             <router-link
                                 :to="{
                                     name: 'bookable',
@@ -30,45 +30,46 @@
                 { 'col-md-12': !loading && alredyReviewed }
             ]"
         >
-            <div v-if="loading">
-                <h3>Loading....</h3>
+        <div v-if="loading">
+            <h3>Loading....</h3>
+        </div>
+        <div v-else>
+            <div v-if="alredyReviewed">
+                <h3>
+                    You've alredy left a review for this booking!
+                </h3>
             </div>
             <div v-else>
-                <div v-if="alredyReviewed">
-                    <h3>
-                        You've alredy left a review for this booking!
-                    </h3>
-                </div>
-                <div v-else>
-                    <div class="form-group">
-                        <label class="text-muted"
-                            >Select the star (1 is wonst - 5 is best)</label
-                        >
-                        <!-- <star-rating :rating='5' class="fa-3x" v-on:rating:changed="onRatingChanged"></star-rating> -->
-                        <!-- <star-rating 
+                <div class="form-group">
+                    <label class="text-muted"
+                        >Select the star (1 is wonst - 5 is best)</label
+                    >
+                    <!-- <star-rating :rating='5' class="fa-3x" v-on:rating:changed="onRatingChanged"></star-rating> -->
+                    <!-- <star-rating 
                         :value='review.rating' class="fa-3x" v-on:input="review.rating = $event">
                         </star-rating> -->
-                        <star-rating class="fa-3x" v-model="review.rating">
-                        </star-rating>
-                    </div>
-                    <div class="form-group">
-                        <label for="content" class="text-muted"
-                            >Describe your expirience with</label
-                        >
-                        <textarea
-                            name="content"
-                            cols="30"
-                            rows="10"
-                            class="form-control"
-                            v-model="review.content"
-                        ></textarea>
-                    </div>
+                    <star-rating class="fa-3x" v-model="review.rating">
+                    </star-rating>
                 </div>
+                <div class="form-group">
+                    <label for="content" class="text-muted"
+                        >Describe your expirience with</label
+                    >
+                    <textarea
+                        name="content"
+                        cols="30"
+                        rows="10"
+                        class="form-control"
+                        v-model="review.content"
+                    ></textarea>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block">Submit</button>
             </div>
-              <button class="btn btn-lg btn-primary btn-block">Submit</button>
         </div>
-      
+        </div>
     </div>
+
+    <!-- </div> -->
 </template>
 <script>
 export default {
@@ -113,9 +114,7 @@ export default {
                         });
                 }
             })
-            .then(response => 
-                (this.loading = false)
-            );
+            .then(response => (this.loading = false));
         //3. Store the review
     },
     computed: {

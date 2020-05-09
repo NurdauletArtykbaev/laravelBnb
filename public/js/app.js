@@ -1980,6 +1980,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -59765,7 +59766,7 @@ var render = function() {
                     "p",
                     [
                       _vm._v(
-                        "\n                        Stayed\n                        "
+                        "\n                        Stayed at\n                        "
                       ),
                       _c(
                         "router-link",
@@ -59818,7 +59819,7 @@ var render = function() {
                 ? _c("div", [
                     _c("h3", [
                       _vm._v(
-                        "\n                    You've alredy left a review for this booking!\n                "
+                        "\n                You've alredy left a review for this booking!\n            "
                       )
                     ])
                   ])
@@ -59876,13 +59877,15 @@ var render = function() {
                           }
                         }
                       })
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      { staticClass: "btn btn-lg btn-primary btn-block" },
+                      [_vm._v("Submit")]
+                    )
                   ])
-            ]),
-        _vm._v(" "),
-        _c("button", { staticClass: "btn btn-lg btn-primary btn-block" }, [
-          _vm._v("Submit")
-        ])
+            ])
       ]
     )
   ])
