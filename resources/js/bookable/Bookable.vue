@@ -8,7 +8,7 @@
                 <div class="card" v-else>
                     <div class="card-body">
                         <h5 class="card-title">{{ bookable.title }}</h5>
-                        <hr />
+                        <hr/>
                         <article>{{ bookable.description }}</article>
                     </div>
                 </div>
