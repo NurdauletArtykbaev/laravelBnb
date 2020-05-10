@@ -78100,7 +78100,10 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store(_store__WEBPA
 var app = new Vue({
   el: '#app',
   store: store,
-  router: _routes__WEBPACK_IMPORTED_MODULE_0__["default"]
+  router: _routes__WEBPACK_IMPORTED_MODULE_0__["default"],
+  beforeCreate: function beforeCreate() {
+    this.$store.dispatch('loaadStoredState');
+  }
 });
 
 /***/ }),
@@ -79060,6 +79063,13 @@ __webpack_require__.r(__webpack_exports__);
     setLastSearch: function setLastSearch(context, payload) {
       context.commit('setLastSearch', payload);
       localStorage.setItem('lastSearch', JSON.stringify(payload));
+    },
+    loaadStoredState: function loaadStoredState(context) {
+      var lastSearch = localStorage.getItem('lastSearch');
+
+      if (lastSearch) {
+        context.commit('setLastSearch', JSON.parse(lastSearch));
+      }
     }
   }
 });

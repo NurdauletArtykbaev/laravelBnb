@@ -38,4 +38,7 @@ const app = new Vue({
     el: '#app',
     store,
     router,
+   beforeCreate(){
+       this.$store.dispatch('loaadStoredState')
+   }
 });
