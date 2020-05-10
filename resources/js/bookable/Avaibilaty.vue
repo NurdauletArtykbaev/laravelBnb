@@ -58,7 +58,9 @@
 </template>
 <script>
 import {is422, is404} from './../components/response'
+import ValidationError from './../shared/mixins/validationError'
 export default {
+    mixins: [ValidationError],
     props: {
         bookableId: String
     },
@@ -67,7 +69,8 @@ export default {
             from: null,
             to: null,
             loading: false,
-            errors: null,
+            //mixins validationError
+            // errors: null,
             status: null
         };
     },
@@ -91,11 +94,12 @@ export default {
                 })
                 .then(() => (this.loading = false));
         },
-        errorFor(field) {
-            return this.hasErrors && this.errors[field]
-                ? this.errors[field]
-                : null;
-        }
+        //mixins validationError
+        // errorFor(field) {
+        //     return this.hasErrors && this.errors[field]
+        //         ? this.errors[field]
+        //         : null;
+        // }
     },
     computed: {
         hasErrors() {

@@ -1909,6 +1909,7 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_response__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/response */ "./resources/js/components/response.js");
+/* harmony import */ var _shared_mixins_validationError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../shared/mixins/validationError */ "./resources/js/shared/mixins/validationError.js");
 //
 //
 //
@@ -2004,7 +2005,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_shared_mixins_validationError__WEBPACK_IMPORTED_MODULE_1__["default"]],
   data: function data() {
     return {
       review: {
@@ -2016,7 +2019,7 @@ __webpack_require__.r(__webpack_exports__);
       existingReview: null,
       booking: null,
       error: false,
-      errors: null,
+      // errors: null,
       sending: false
     };
   },
@@ -2088,10 +2091,13 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function () {
         return _this2.sending = false;
       });
-    },
-    errorFor: function errorFor(field) {
-      return null !== this.errors && this.errors[field] ? this.errors[field] : null;
-    }
+    } //mixins validationError
+    // errorFor(field) {
+    //     return null !== this.errors && this.errors[field]
+    //         ? this.errors[field]
+    //         : null;
+    // }
+
   }
 });
 
@@ -2335,6 +2341,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_response__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/response */ "./resources/js/components/response.js");
+/* harmony import */ var _shared_mixins_validationError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../shared/mixins/validationError */ "./resources/js/shared/mixins/validationError.js");
 //
 //
 //
@@ -2394,7 +2401,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_shared_mixins_validationError__WEBPACK_IMPORTED_MODULE_1__["default"]],
   props: {
     bookableId: String
   },
@@ -2403,7 +2412,8 @@ __webpack_require__.r(__webpack_exports__);
       from: null,
       to: null,
       loading: false,
-      errors: null,
+      //mixins validationError
+      // errors: null,
       status: null
     };
   },
@@ -2424,10 +2434,13 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function () {
         return _this.loading = false;
       });
-    },
-    errorFor: function errorFor(field) {
-      return this.hasErrors && this.errors[field] ? this.errors[field] : null;
-    }
+    } //mixins validationError
+    // errorFor(field) {
+    //     return this.hasErrors && this.errors[field]
+    //         ? this.errors[field]
+    //         : null;
+    // }
+
   },
   computed: {
     hasErrors: function hasErrors() {
@@ -76839,6 +76852,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidationError_vue_vue_type_template_id_8689bd5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/shared/mixins/validationError.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/shared/mixins/validationError.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      errors: null
+    };
+  },
+  methods: {
+    errorFor: function errorFor(field) {
+      return null !== this.errors && this.errors[field] ? this.errors[field] : null;
+    }
+  }
+});
 
 /***/ }),
 

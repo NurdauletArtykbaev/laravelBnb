@@ -94,7 +94,9 @@
 </template>
 <script>
 import { is404, is422 } from "./../components/response";
+import ValidationError from './../shared/mixins/validationError'
 export default {
+    mixins:[ValidationError],
     data() {
         return {
             review: {
@@ -106,7 +108,7 @@ export default {
             existingReview: null,
             booking: null,
             error: false,
-            errors: null,
+            // errors: null,
             sending: false
         };
     },
@@ -177,11 +179,12 @@ export default {
                 })
                 .then(() => (this.sending = false));
         },
-        errorFor(field) {
-            return null !== this.errors && this.errors[field]
-                ? this.errors[field]
-                : null;
-        }
+        //mixins validationError
+        // errorFor(field) {
+        //     return null !== this.errors && this.errors[field]
+        //         ? this.errors[field]
+        //         : null;
+        // }
     }
 };
 </script>
