@@ -12,6 +12,7 @@ import VueRouter from 'vue-router';
 import moment from 'moment';
 import starRating from './shared/components/StarRaiting.vue'
 import FatalError from './shared/components/FatalError.vue'
+import Success from './shared/components/Success.vue'
 import ValiadtionError from './shared/components/ValidationError.vue'
 
 
@@ -19,6 +20,7 @@ Vue.component('index', require('./index.vue').default);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('star-rating', starRating);
 Vue.component('fatal-error', FatalError);
+Vue.component('success', Success);
 Vue.component('v-error', ValiadtionError);
 
 
