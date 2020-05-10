@@ -40,7 +40,7 @@
 
 export default {
     props: {
-        bookableId: String,
+        bookableId: [String, Number],
         rating: Number
     },
     data() {

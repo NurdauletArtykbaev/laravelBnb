@@ -62,7 +62,7 @@ import ValidationError from './../shared/mixins/validationError'
 export default {
     mixins: [ValidationError],
     props: {
-        bookableId: String
+        bookableId: [String, Number]
     },
     data() {
         return {

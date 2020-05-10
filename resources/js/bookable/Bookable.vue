@@ -25,7 +25,7 @@ import Avaibality from "./Avaibilaty";
 import ReviewList from "./ReviewList";
 export default {
     props: {
-        bookableId: String
+        bookableId: [String, Number]
     },
     data() {
         return {
