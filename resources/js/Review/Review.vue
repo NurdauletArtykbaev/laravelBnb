@@ -74,7 +74,6 @@
                             </div>
                             </div> -->
                             <v-error :errors="errorFor('content')"></v-error>
-                        
                         </div>
 
                         <button
@@ -94,9 +93,9 @@
 </template>
 <script>
 import { is404, is422 } from "./../components/response";
-import ValidationError from './../shared/mixins/validationError'
+import ValidationError from "./../shared/mixins/validationError";
 export default {
-    mixins:[ValidationError],
+    mixins: [ValidationError],
     data() {
         return {
             review: {
@@ -117,30 +116,45 @@ export default {
     //         console.log(rating);
     //     },
     // }
-    created() {
+    async created() {
         this.review.id = this.$route.params.id;
         this.loading = true;
         //1. If review already exists (in rewviews table by id)
-        axios
-            .get(`/api/reviews/${this.review.id}`)
-            .then(response => {
-                this.existingReview = response.data;
-            })
-            .catch(err => {
-                if (is404(err)) {
-                    //2. Fetch a booking by a review key
-                    return axios
-                        .get(`/api/booking-by-review/${this.review.id}`)
-                        .then(response => {
-                            this.booking = response.data;
-                        })
-                        .catch(err => {
-                            this.error = !is404(err);
-                        });
+        try {
+            this.existingReview = (await axios.get(`/api/reviews/${this.review.id}`)).data;
+        } catch (err) {
+            if (is404(err)) {
+                try {
+                    this.booking = (
+                        await axios.get(`/api/booking-by-review/${this.review.id}`)).data;
+                } catch (err) {
+                    this.error = !is404(err);
                 }
-                this.error = true;
-            })
-            .then(response => (this.loading = false));
+            } else {
+                this.error = false;
+            }
+        }
+        this.loading = false;
+        // axios
+        //     .get(`/api/reviews/${this.review.id}`)
+        //     .then(response => {
+        //         this.existingReview = response.data;
+        //     })
+        //     .catch(err => {
+        //         if (is404(err)) {
+        //             //2. Fetch a booking by a review key
+        //             return axios
+        //                 .get(`/api/booking-by-review/${this.review.id}`)
+        //                 .then(response => {
+        //                     this.booking = response.data;
+        //                 })
+        //                 .catch(err => {
+        //                     this.error = !is404(err);
+        //                 });
+        //         }
+        //         this.error = true;
+        //     })
+        //     .then(response => (this.loading = false));
     },
     computed: {
         alredyReviewed() {
@@ -178,7 +192,7 @@ export default {
                     this.error = true;
                 })
                 .then(() => (this.sending = false));
-        },
+        }
         //mixins validationError
         // errorFor(field) {
         //     return null !== this.errors && this.errors[field]
@@ -190,7 +204,7 @@ export default {
 </script>
 
 <style scoped>
-.form-control.is-invalid ~div > .invalid-feedback{
+.form-control.is-invalid ~ div > .invalid-feedback {
     display: block;
 }
 </style>
