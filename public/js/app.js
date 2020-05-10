@@ -1908,7 +1908,11 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_is404__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/is404 */ "./resources/js/components/is404.js");
+/* harmony import */ var _components_response__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/response */ "./resources/js/components/response.js");
+//
+//
+//
+//
 //
 //
 //
@@ -1998,7 +2002,8 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       existingReview: null,
       booking: null,
-      error: false
+      error: false,
+      errors: null
     };
   },
   // methods:{
@@ -2015,19 +2020,19 @@ __webpack_require__.r(__webpack_exports__);
     axios.get("/api/reviews/".concat(this.review.id)).then(function (response) {
       _this.existingReview = response.data;
     })["catch"](function (err) {
-      if (Object(_components_is404__WEBPACK_IMPORTED_MODULE_0__["is404"])(err)) {
+      if (Object(_components_response__WEBPACK_IMPORTED_MODULE_0__["is404"])(err)) {
         //2. Fetch a booking by a review key
         return axios.get("/api/booking-by-review/".concat(_this.review.id)).then(function (response) {
           _this.booking = response.data;
         })["catch"](function (err) {
-          _this.error = !Object(_components_is404__WEBPACK_IMPORTED_MODULE_0__["is404"])(err);
+          _this.error = !Object(_components_response__WEBPACK_IMPORTED_MODULE_0__["is404"])(err);
         });
       }
 
       _this.error = true;
     }).then(function (response) {
       return _this.loading = false;
-    }); //3. Store the review
+    });
   },
   computed: {
     alredyReviewed: function alredyReviewed() {
@@ -2050,11 +2055,22 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this2 = this;
 
+      //3. Store the review
+      this.errors = null;
       this.loading = true;
       axios.post("/api/reviews", this.review).then(function (res) {
         return console.log(res);
       })["catch"](function (err) {
-        return _this2.error = true;
+        if (Object(_components_response__WEBPACK_IMPORTED_MODULE_0__["is422"])(err)) {
+          var errors = err.response.data.errors;
+
+          if (errors["content"] && 1 === _.size(errors)) {
+            _this2.errors = errors;
+            return;
+          }
+        }
+
+        _this2.error = true;
       }).then(function () {
         return _this2.loading = false;
       });
@@ -2301,6 +2317,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_response__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/response */ "./resources/js/components/response.js");
 //
 //
 //
@@ -2356,6 +2373,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     bookableId: String
@@ -2378,7 +2396,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/api/bookables/".concat(this.bookableId, "/availability?from=").concat(this.from, "&to=").concat(this.to)).then(function (res) {
         _this.status = res.status;
       })["catch"](function (error) {
-        if (422 === error.response.status) {
+        if (Object(_components_response__WEBPACK_IMPORTED_MODULE_0__["is422"])(error)) {
           _this.errors = error.response.data.errors;
         }
 
@@ -59854,7 +59872,7 @@ var render = function() {
                             "p",
                             [
                               _vm._v(
-                                "\n                        Stayed at\n                        "
+                                "\n                            Stayed at\n                            "
                               ),
                               _c(
                                 "router-link",
@@ -59871,9 +59889,9 @@ var render = function() {
                                 [
                                   _vm._v(
                                     _vm._s(_vm.booking.bookable.bookable_id) +
-                                      " " +
+                                      "\n                                " +
                                       _vm._s(_vm.booking.bookable.title) +
-                                      " " +
+                                      "\n                                " +
                                       _vm._s(_vm.booking.bookable.description)
                                   )
                                 ]
@@ -59912,7 +59930,7 @@ var render = function() {
                         ? _c("div", [
                             _c("h3", [
                               _vm._v(
-                                "\n                You've alredy left a review for this booking!\n            "
+                                "\n                        You've alredy left a review for this booking!\n                    "
                               )
                             ])
                           ])
@@ -59994,7 +60012,11 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Submit")]
+                              [
+                                _vm._v(
+                                  "\n                        Submit\n                    "
+                                )
+                              ]
                             )
                           ])
                     ])
@@ -76274,18 +76296,26 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/is404.js":
-/*!******************************************!*\
-  !*** ./resources/js/components/is404.js ***!
-  \******************************************/
-/*! exports provided: is404 */
+/***/ "./resources/js/components/response.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/response.js ***!
+  \*********************************************/
+/*! exports provided: is404, is422 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is404", function() { return is404; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is422", function() { return is422; });
 var is404 = function is404(error) {
-  return error.response && error.response.status && 404 === error.response.status;
+  return isErrorAndResponseAddAbsolut && 404 === error.response.status;
+};
+var is422 = function is422(error) {
+  return isErrorAndResponseAddAbsoluts && 422 === error.response.status;
+};
+
+var isErrorAndResponseAddAbsolut = function isErrorAndResponseAddAbsolut(err) {
+  return err.response && err.response.status;
 };
 
 /***/ }),
