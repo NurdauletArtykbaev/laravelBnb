@@ -6,7 +6,7 @@ export default{
         }
     },
     mutations: {
-        changeSearch(state, payload){
+        setLastSearch(state, payload){
             state.lastSearch = payload
 
         }

@@ -2502,6 +2502,10 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loading = true;
       this.errors = null;
+      this.$store.commit('setLastSearch', {
+        from: this.from,
+        to: this.to
+      });
       axios.get("/api/bookables/".concat(this.bookableId, "/availability?from=").concat(this.from, "&to=").concat(this.to)).then(function (res) {
         _this.status = res.status;
       })["catch"](function (error) {
@@ -78043,6 +78047,7 @@ Vue.filter("fromNow", function (value) {
 var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_8__["default"]);
 var app = new Vue({
   el: '#app',
+  store: store,
   router: _routes__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 
@@ -78979,7 +78984,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mutations: {
-    changeSearch: function changeSearch(state, payload) {
+    setLastSearch: function setLastSearch(state, payload) {
       state.lastSearch = payload;
     }
   }

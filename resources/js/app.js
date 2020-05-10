@@ -36,5 +36,6 @@ const store = new Vuex.Store(storeDefinition);
 
 const app = new Vue({
     el: '#app',
+    store,
     router,
 });
