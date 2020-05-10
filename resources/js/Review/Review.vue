@@ -4,8 +4,8 @@
         <div class="row" v-else>
         <div
             :class="[
-                { 'col-md-4': loading || !alredyReviewed },
-                { 'd-none': !loading && alredyReviewed }
+                { 'col-md-4': oneColumn },
+                { 'd-none': twoColumn }
             ]"
         >
             <div class="card">
@@ -28,8 +28,8 @@
         </div>
         <div
             :class="[
-                { 'col-md-8': loading || !alredyReviewed },
-                { 'col-md-12': !loading && alredyReviewed }
+                { 'col-md-8': oneColumn },
+                { 'col-md-12': twoColumn }
             ]"
         >
         <div v-if="loading">
@@ -65,7 +65,7 @@
                         v-model="review.content"
                     ></textarea>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block">Submit</button>
+                <button class="btn btn-lg btn-primary btn-block" @click.prevent="submit" :disabled="loading">Submit</button>
             </div>
         </div>
         </div>
@@ -81,11 +81,10 @@ export default {
     data() {
         return {
             review: {
+                id:null,
                 rating: 5,
                 content: null,
-                loading: false,
-                existReview: null
-            },
+             },
             loading: false,
             existingReview: null,
             booking: null,
@@ -98,10 +97,11 @@ export default {
     //     },
     // }
     created() {
+        this.review.id = this.$route.params.id
         this.loading = true;
         //1. If review already exists (in rewviews table by id)
         axios
-            .get(`/api/reviews/${this.$route.params.id}`)
+            .get(`/api/reviews/${this.review.id}`)
             .then(response => {
                 (this.existingReview = response.data),
                     console.loading(this.existingReview);
@@ -110,7 +110,7 @@ export default {
                 if (is404(err)) {
                     //2. Fetch a booking by a review key
                     return axios
-                        .get(`/api/booking-by-review/${this.$route.params.id}`)
+                        .get(`/api/booking-by-review/${this.review.id}`)
                         .then(response => {
                             this.booking = response.data;
                         })
@@ -132,6 +132,21 @@ export default {
         },
         hasBooking() {
             return this.booking !== null;
+        },
+        oneColumn(){
+            return this.loading || !this.alredyReviewed
+        },
+        twoColumn(){
+            return !this.loading && this.alredyReviewed
+        }
+    },
+    methods:{
+        submit(){
+            this.loading = true
+            axios.post(`/api/reviews`, this.review)
+            .then(res => (console.log(res)))
+            .catch(err=> (this.error = true))
+            .then(()=> (this.loading = false))
         }
     }
 };

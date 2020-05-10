@@ -1991,10 +1991,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       review: {
+        id: null,
         rating: 5,
-        content: null,
-        loading: false,
-        existReview: null
+        content: null
       },
       loading: false,
       existingReview: null,
@@ -2010,14 +2009,15 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    this.review.id = this.$route.params.id;
     this.loading = true; //1. If review already exists (in rewviews table by id)
 
-    axios.get("/api/reviews/".concat(this.$route.params.id)).then(function (response) {
+    axios.get("/api/reviews/".concat(this.review.id)).then(function (response) {
       _this.existingReview = response.data, console.loading(_this.existingReview);
     })["catch"](function (err) {
       if (Object(_components_is404__WEBPACK_IMPORTED_MODULE_0__["is404"])(err)) {
         //2. Fetch a booking by a review key
-        return axios.get("/api/booking-by-review/".concat(_this.$route.params.id)).then(function (response) {
+        return axios.get("/api/booking-by-review/".concat(_this.review.id)).then(function (response) {
           _this.booking = response.data;
         })["catch"](function (err) {
           _this.error = !Object(_components_is404__WEBPACK_IMPORTED_MODULE_0__["is404"])(err);
@@ -2038,6 +2038,26 @@ __webpack_require__.r(__webpack_exports__);
     },
     hasBooking: function hasBooking() {
       return this.booking !== null;
+    },
+    oneColumn: function oneColumn() {
+      return this.loading || !this.alredyReviewed;
+    },
+    twoColumn: function twoColumn() {
+      return !this.loading && this.alredyReviewed;
+    }
+  },
+  methods: {
+    submit: function submit() {
+      var _this2 = this;
+
+      this.loading = true;
+      axios.post("/api/reviews", this.review).then(function (res) {
+        return console.log(res);
+      })["catch"](function (err) {
+        return _this2.error = true;
+      }).then(function () {
+        return _this2.loading = false;
+      });
     }
   }
 });
@@ -59768,8 +59788,8 @@ var render = function() {
             "div",
             {
               class: [
-                { "col-md-4": _vm.loading || !_vm.alredyReviewed },
-                { "d-none": !_vm.loading && _vm.alredyReviewed }
+                { "col-md-4": _vm.oneColumn },
+                { "d-none": _vm.twoColumn }
               ]
             },
             [
@@ -59829,8 +59849,8 @@ var render = function() {
             "div",
             {
               class: [
-                { "col-md-8": _vm.loading || !_vm.alredyReviewed },
-                { "col-md-12": !_vm.loading && _vm.alredyReviewed }
+                { "col-md-8": _vm.oneColumn },
+                { "col-md-12": _vm.twoColumn }
               ]
             },
             [
@@ -59913,7 +59933,16 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "button",
-                            { staticClass: "btn btn-lg btn-primary btn-block" },
+                            {
+                              staticClass: "btn btn-lg btn-primary btn-block",
+                              attrs: { disabled: _vm.loading },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.submit($event)
+                                }
+                              }
+                            },
                             [_vm._v("Submit")]
                           )
                         ])
