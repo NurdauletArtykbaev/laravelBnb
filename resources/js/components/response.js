@@ -3,7 +3,7 @@ export  const is404 = function(error) {
 }
 
 export const is422 = function (error) {
-  return isErrorAndResponseAddAbsoluts && 422 === error.response.status
+  return isErrorAndResponseAddAbsolut && 422 === error.response.status
 }
 
 const isErrorAndResponseAddAbsolut = function (err) {
