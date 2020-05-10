@@ -2013,7 +2013,7 @@ __webpack_require__.r(__webpack_exports__);
     this.loading = true; //1. If review already exists (in rewviews table by id)
 
     axios.get("/api/reviews/".concat(this.review.id)).then(function (response) {
-      _this.existingReview = response.data, console.loading(_this.existingReview);
+      _this.existingReview = response.data;
     })["catch"](function (err) {
       if (Object(_components_is404__WEBPACK_IMPORTED_MODULE_0__["is404"])(err)) {
         //2. Fetch a booking by a review key

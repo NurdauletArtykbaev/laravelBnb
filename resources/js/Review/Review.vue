@@ -103,8 +103,7 @@ export default {
         axios
             .get(`/api/reviews/${this.review.id}`)
             .then(response => {
-                (this.existingReview = response.data),
-                    console.loading(this.existingReview);
+                (this.existingReview = response.data);
             })
             .catch(err => {
                 if (is404(err)) {

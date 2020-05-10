@@ -18,7 +18,8 @@ class BookingByReviewController extends Controller
     public function __invoke($reviewKey, Request $request)
     {
         // return Booking::findByReviewKey($reviewKey) ?? abort(404);
+        $booking  = Booking::findByReviewKey($reviewKey);
 
-        return new BookingByReviewShowResource(Booking::findByReviewKey($reviewKey)) ?? abort(404);
+        return  new BookingByReviewShowResource($booking) ?? abort(404);
     }
 }
