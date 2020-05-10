@@ -64,6 +64,7 @@
                                 v-model="review.content"
                                 :class="[{ 'is-invalid': errorFor('content') }]"
                             ></textarea>
+                            <!-- <div>
                             <div
                                 class="invalid-feedback"
                                 v-for="(error, index) in errorFor('content')"
@@ -71,6 +72,9 @@
                             >
                                 {{ error }}
                             </div>
+                            </div> -->
+                            <v-error :errors="errorFor('content')"></v-error>
+                        
                         </div>
 
                         <button
@@ -181,3 +185,9 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.form-control.is-invalid ~div > .invalid-feedback{
+    display: block;
+}
+</style>
