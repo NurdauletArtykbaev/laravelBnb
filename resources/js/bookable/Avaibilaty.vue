@@ -2,10 +2,12 @@
     <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <span v-if="noAvailabity" class="text-danger">(Not Available)</span>
-            <span v-if="hasAvailabity" class="text-success"
-                >(Availabilable)</span
-            >
+            <!-- <transition name="fade"> -->
+            <transition>
+                <span v-if="noAvailabity" class="text-danger">(Not Available)</span>
+                <span v-if="hasAvailabity" class="text-success">(Availabilable)</span>
+            </transition>
+           
         </h6>
 
         <div class="form-row">
