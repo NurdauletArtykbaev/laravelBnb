@@ -2479,6 +2479,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -7409,7 +7410,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nlabel[data-v-14791688] {\r\n    font-size: 0.7rem;\r\n    color: gray;\r\n    text-transform: uppercase;\r\n    font-weight: bolder;\n}\n.is-invalid[data-v-14791688] {\r\n    border-color: #b22222;\r\n    background-image: none;\n}\n.invalid-feedback[data-v-14791688] {\r\n    color: #b22222;\n}\r\n", ""]);
+exports.push([module.i, "\nlabel[data-v-14791688] {\n    font-size: 0.7rem;\n    color: gray;\n    text-transform: uppercase;\n    font-weight: bolder;\n}\n.is-invalid[data-v-14791688] {\n    border-color: #b22222;\n    background-image: none;\n}\n.invalid-feedback[data-v-14791688] {\n    color: #b22222;\n}\n", ""]);
 
 // exports
 
@@ -61263,18 +61264,21 @@ var render = function() {
       { staticClass: "text-uppercase text-secondary font-weight-bolder" },
       [
         _vm._v("\n        Check Availability\n        "),
-        _vm.noAvailabity
-          ? _c("span", { staticClass: "text-danger" }, [
-              _vm._v("(Not Available)")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.hasAvailabity
-          ? _c("span", { staticClass: "text-success" }, [
-              _vm._v("(Availabilable)")
-            ])
-          : _vm._e()
-      ]
+        _c("trancition", { attrs: { name: "fade" } }, [
+          _vm.noAvailabity
+            ? _c("span", { staticClass: "text-danger" }, [
+                _vm._v("(Not Available)")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.hasAvailabity
+            ? _c("span", { staticClass: "text-success" }, [
+                _vm._v("(Availabilable)")
+              ])
+            : _vm._e()
+        ])
+      ],
+      1
     ),
     _vm._v(" "),
     _c("div", { staticClass: "form-row" }, [
@@ -79094,8 +79098,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\OSPanel\domains\laravelbnb\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\OSPanel\domains\laravelbnb\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\OSPanel\domains\laravelBnb\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\OSPanel\domains\laravelBnb\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
