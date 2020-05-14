@@ -2,10 +2,10 @@
     <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <trancition name="fade">
+            <transition name="fade">
                 <span v-if="noAvailabity" class="text-danger">(Not Available)</span>
                 <span v-if="hasAvailabity" class="text-success">(Availabilable)</span>
-            </trancition>
+            </transition>
 
         </h6>
 
@@ -52,8 +52,11 @@
                 <v-error :errors="errorFor('to')"></v-error>
             </div>
         </div>
+
+
         <button class="btn btn-secondary btn-block" @click="check">
-            Check
+            <span v-if="loading"><i class="fas fa-sync fa-spin"></i>Checking...</span>
+            <span v-if="!loading">Check!</span>
         </button>
     </div>
 </template>
