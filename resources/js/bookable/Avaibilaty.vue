@@ -55,7 +55,7 @@
 
 
         <button class="btn btn-secondary btn-block" @click="check">
-            <span v-if="loading"><i class="fas fa-sync fa-spin"></i>Checking...</span>
+            <span v-if="loading"><i class="fas fa-sync fa-spin"></i> Checking...</span>
             <span v-if="!loading">Check!</span>
         </button>
     </div>
@@ -81,28 +81,41 @@ export default {
         };
     },
     methods: {
-        check() {
+        async check() {
             this.loading = true;
             this.errors = null;
             this.$store.dispatch('setLastSearch', {
                 from: this.from,
                 to: this.to
             })
-
-            axios
-                .get(
-                    `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
-                )
-                .then(res => {
-                    this.status = res.status;
-                })
-                .catch(error => {
-                    if (is422(error)) {
-                        this.errors = error.response.data.errors;
+            try {
+            this.status =  (await axios
+                .get(`/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
+                )).status;
+            this.$emit('availability', this.hasAvailabity)
+            } catch(err){
+                if (is422(err)) {
+                        this.errors = err.response.data.errors;
                     }
-                    this.status = error.response.status;
-                })
-                .then(() => (this.loading = false));
+                this.status = err.response.status
+                this.$emit('availability', this.hasAvailabity)
+
+            }
+            this.loading = false
+            // axios
+            //     .get(
+            //         `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
+            //     )
+            //     .then(res => {
+            //         this.status = res.status;
+            //     })
+            //     .catch(error => {
+            //         if (is422(error)) {
+            //             this.errors = error.response.data.errors;
+            //         }
+            //         this.status = error.response.status;
+            //     })
+            //     .then(() => (this.loading = false));
         },
         //mixins validationError
         // errorFor(field) {
