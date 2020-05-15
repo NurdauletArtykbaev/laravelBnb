@@ -17,7 +17,6 @@ export default{
         },
         removeFromBasket(state, payload){
             state.basket.items = state.basket.items.filter(item => item.bookable.id !== payload)
-
         }
     },
     actions:{
@@ -33,7 +32,13 @@ export default{
         }
     },
     getters:{
-        itemsInBasket: (state) => state.basket.items.length
+
+        itemsInBasket: (state) => state.basket.items.length,
+        inBasketAlready(state){
+            return function (id) {
+                return state.basket.items.reduce((result, item) => result || item.bookable.id === id, false)
+            }
+        }
     }
 
 }

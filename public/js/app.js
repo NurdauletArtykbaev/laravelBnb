@@ -79541,6 +79541,13 @@ __webpack_require__.r(__webpack_exports__);
   getters: {
     itemsInBasket: function itemsInBasket(state) {
       return state.basket.items.length;
+    },
+    inBasketAlready: function inBasketAlready(state) {
+      return function (id) {
+        return state.basket.items.reduce(function (result, item) {
+          return result || item.bookable.id === id;
+        }, false);
+      };
     }
   }
 });
