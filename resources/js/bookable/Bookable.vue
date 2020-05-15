@@ -20,7 +20,7 @@
                     <price-breakdown  v-if="price" :price="price"></price-breakdown>
                 </transition>
                 <transition name="fade">
-                    <button v-if="price" class="btn btn-outline-secondary btn-block">Price </button>
+                    <button v-if="price" class="btn btn-outline-secondary btn-block" @click="addToBasket">Book now</button>
                 </transition>
 
             </div>
@@ -82,6 +82,13 @@ export default {
             } catch(err){
                 this.price = null
             }
+        },
+        addToBasket(){
+            this.$store.commit('addToBasket',{
+                bookable: this.bookable,
+                price: this.price,
+                dates: this.lastSearch
+            })
         }
     },
 
