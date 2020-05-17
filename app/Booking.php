@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Bookable;
+use App\Addresses;
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
@@ -19,6 +21,10 @@ class Booking extends Model
 
     public function rewview(){
         return $this->hasOne(Review::class);
+    }
+
+    public function address(){
+        return $this->belongsTo(Addresses::class);
     }
 
     public function scopeBetweenDates(Builder $query, $from, $to){
