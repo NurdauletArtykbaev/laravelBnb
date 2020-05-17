@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8" v-if="itemsInBasket">
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="first_name">First name</label>
@@ -37,8 +37,7 @@
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="street">Street</label>
-                    <input type="text" class="form-control" name="street"  v-model="customer.street"
->
+                    <input type="text" class="form-control" name="street"  v-model="customer.street">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="city">City</label>
@@ -65,6 +64,12 @@
                 <div class="col-md-12 form-group">
                     <button type="submit" @click.prevent="book" class="btn btn-lg btn-primary btn-block">Book now!</button>
                 </div>
+            </div>
+
+        </div>
+        <div class="col-md-8" v-else>
+            <div class="jumbotron jumbotron-fluid text-center">
+                <h1>Empty</h1>
             </div>
 
         </div>
