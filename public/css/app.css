@@ -16935,12 +16935,12 @@ a.text-dark:focus {
 }
 
 .v-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+.v-leave-active {
+  transition: opacity 4s;
 }
 
 .v-enter,
-.fade-leave-to {
+.v-leave-to {
   opacity: 0;
 }
 

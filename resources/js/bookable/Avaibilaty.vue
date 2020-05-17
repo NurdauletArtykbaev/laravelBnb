@@ -2,12 +2,11 @@
     <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <!-- <transition name="fade"> -->
-            <transition>
+            <transition name="fade">
                 <span v-if="noAvailabity" class="text-danger">(Not Available)</span>
                 <span v-if="hasAvailabity" class="text-success">(Availabilable)</span>
             </transition>
-           
+
         </h6>
 
         <div class="form-row">
@@ -53,9 +52,11 @@
                 <v-error :errors="errorFor('to')"></v-error>
             </div>
         </div>
+
+
         <button class="btn btn-secondary btn-block" @click="check">
+            <span v-if="loading"><i class="fas fa-sync fa-spin"></i> Checking...</span>
             <span v-if="!loading">Check!</span>
-            <span v-if="loading"> <i class="fas fa-circle-notch fa-spin"></i>Checking...</span>    
         </button>
     </div>
 </template>
@@ -87,22 +88,20 @@ export default {
                 from: this.from,
                 to: this.to
             })
-            
-            try{
-                this.status = await axios.get(`/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`).status
-            
-                this.$emit('availability', this.hasAvailabity)
+            try {
+            this.status =  (await axios
+                .get(`/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
+                )).status;
+            this.$emit('availability', this.hasAvailabity)
             } catch(err){
-                    if (is422(err)) {
+                if (is422(err)) {
                         this.errors = err.response.data.errors;
                     }
-                    this.status = err.response.status;
-                    this.$emit('availability', this.hasAvailabity)
+                this.status = err.response.status
+                this.$emit('availability', this.hasAvailabity)
 
             }
             this.loading = false
-
-
             // axios
             //     .get(
             //         `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
