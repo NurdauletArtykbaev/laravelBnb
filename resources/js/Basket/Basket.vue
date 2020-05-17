@@ -9,7 +9,8 @@
                     <span v-else>Empty</span>
                 </h6>
             </div>
-            <div v-for="item in basket" :key="item.bookable.id">
+            <transition-group name="fade">
+<div v-for="item in basket" :key="item.bookable.id">
                 <div class="pt-2 pb-2 border-top d-flex justify-content-between">
                     <router-link :to="{name: 'bookable', params:{id:item.bookable.id}}">
                     {{item.bookable.title}}
@@ -26,6 +27,8 @@
                     <button class="btn btn-sm btn-outline-secondary" @click="$store.dispatch('removeFromBasket', item.bookable.id)"><i class="fas fa-trash-alt"></i></button>
                 </div>
             </div>
+            </transition-group>
+            
         </div>
     </div>
 </template>
