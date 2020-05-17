@@ -159,9 +159,11 @@ export default {
                     {
                         customer: this.customer, 
                         bookings: this.basket.map(basketItem=>({
-                            bookable_id: basketItem.bookable.id,
-                            from: basketItem.dates.from,
-                            to:basketItem.dates.to}))})
+                        bookable_id: basketItem.bookable.id,
+                        from: basketItem.dates.from,
+                        to:basketItem.dates.to}))})
+                        
+                        this.$store.dispatch('clearBasket')
 
             } catch (err){
 
