@@ -2419,8 +2419,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_response__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/response */ "./resources/js/components/response.js");
-/* harmony import */ var _shared_mixins_validationError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../shared/mixins/validationError */ "./resources/js/shared/mixins/validationError.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_response__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../components/response */ "./resources/js/components/response.js");
+/* harmony import */ var _shared_mixins_validationError__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../shared/mixins/validationError */ "./resources/js/shared/mixins/validationError.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2485,7 +2493,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_shared_mixins_validationError__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_shared_mixins_validationError__WEBPACK_IMPORTED_MODULE_2__["default"]],
   props: {
     bookableId: [String, Number]
   },
@@ -2505,23 +2513,66 @@ __webpack_require__.r(__webpack_exports__);
     check: function check() {
       var _this = this;
 
-      this.loading = true;
-      this.errors = null;
-      this.$store.dispatch('setLastSearch', {
-        from: this.from,
-        to: this.to
-      });
-      axios.get("/api/bookables/".concat(this.bookableId, "/availability?from=").concat(this.from, "&to=").concat(this.to)).then(function (res) {
-        _this.status = res.status;
-      })["catch"](function (error) {
-        if (Object(_components_response__WEBPACK_IMPORTED_MODULE_0__["is422"])(error)) {
-          _this.errors = error.response.data.errors;
-        }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.loading = true;
+                _this.errors = null;
 
-        _this.status = error.response.status;
-      }).then(function () {
-        return _this.loading = false;
-      });
+                _this.$store.dispatch('setLastSearch', {
+                  from: _this.from,
+                  to: _this.to
+                });
+
+                _context.prev = 3;
+                _context.next = 6;
+                return axios.get("/api/bookables/".concat(_this.bookableId, "/availability?from=").concat(_this.from, "&to=").concat(_this.to)).status;
+
+              case 6:
+                _this.status = _context.sent;
+
+                _this.$emit('availability', _this.hasAvailabity);
+
+                _context.next = 15;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](3);
+
+                if (Object(_components_response__WEBPACK_IMPORTED_MODULE_1__["is422"])(_context.t0)) {
+                  _this.errors = _context.t0.response.data.errors;
+                }
+
+                _this.status = _context.t0.response.status;
+
+                _this.$emit('availability', _this.hasAvailabity);
+
+              case 15:
+                _this.loading = false; // axios
+                //     .get(
+                //         `/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
+                //     )
+                //     .then(res => {
+                //         this.status = res.status;
+                //     })
+                //     .catch(error => {
+                //         if (is422(error)) {
+                //             this.errors = error.response.data.errors;
+                //         }
+                //         this.status = error.response.status;
+                //     })
+                //     .then(() => (this.loading = false));
+
+              case 16:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[3, 10]]);
+      }))();
     } //mixins validationError
     // errorFor(field) {
     //     return this.hasErrors && this.errors[field]
@@ -2606,6 +2657,11 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (error) {
       return console.log(error);
     });
+  },
+  methods: {
+    checkPrice: function checkPrice(hasAvailibity) {
+      console.log(hasAvailibity);
+    }
   }
 });
 
@@ -61438,7 +61494,16 @@ var render = function() {
       _c(
         "div",
         { staticClass: "col-md-4 pb-4" },
-        [_c("avaibality", { attrs: { "bookable-id": this.$route.params.id } })],
+        [
+          _c("avaibality", {
+            attrs: { "bookable-id": this.$route.params.id },
+            on: {
+              availability: function($event) {
+                return _vm.checkPrice($event)
+              }
+            }
+          })
+        ],
         1
       )
     ])
