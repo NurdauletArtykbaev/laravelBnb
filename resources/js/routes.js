@@ -2,7 +2,7 @@
  import Bookables from './bookabels/Bookables'
  import Bookable from './bookable/Bookable'
  import Review from './Review/Review'
-
+import Basket from './Basket/Basket'
  const routes = [
      {
          path: '/',
@@ -18,6 +18,11 @@
         path: '/review/:id',
         component: Review,
         name: 'review'
+    },
+    {
+        path: '/basket',
+        component: Basket,
+        name: 'basket'
     }
  ];
 

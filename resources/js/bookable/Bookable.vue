@@ -77,10 +77,14 @@ export default {
     computed: mapState({
         lastSearch: "lastSearch",
         inBasketAlready(state){
-            if(null === this.bookable)
-                return false;
+            // if(null === this.bookable)
+            //     return false;
 
-            return state.basket.items.reduce((result, item) => result || this.bookable.id, false)
+            // return state.basket.items.reduce((result, item) => result || this.bookable.id, false)
+           if(this.bookable === null){
+                return null;
+            }
+            return this.$store.getters.inBasketAlready(this.bookable.id);
         }
 
          }),
