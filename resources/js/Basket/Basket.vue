@@ -1,5 +1,9 @@
 <template>
-    <div class="row">
+<div>
+    <success v-if="success">
+        Congratulations on your purchase
+    </success>
+<div class="row" v-else>
         <div class="col-md-8" v-if="itemsInBasket">
             <div class="row">
                 <div class="col-md-6 form-group">
@@ -86,7 +90,9 @@
             <hr/>
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <button type="submit" @click.prevent="book" class="btn btn-lg btn-primary btn-block">Book now!</button>
+                    <button type="submit" @click.prevent="book" 
+                    class="btn btn-lg btn-primary btn-block"
+                    :disabled="loading">Book now!</button>
                 </div>
             </div>
 
@@ -147,6 +153,8 @@
             </transition-group>
         </div>
     </div>
+</div>
+    
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
@@ -165,18 +173,23 @@ export default {
                 country: null,
                 state: null,
                 zip: null,
-            }
+            },
+            bookingAttempted: false,
         }
     },
     computed: {
         ...mapGetters(["itemsInBasket"]),
         ...mapState({
             basket: state => state.basket.items
-        })
+        }),
+        success(){
+            return !this.loading && 0 === this.itemsInBasket && this.bookingAttempted
+        }
     },
     methods:{
         async book(){
             this.loading = true
+            this.bookingAttempted = false
             this.errors = null
 
             try{
@@ -189,6 +202,8 @@ export default {
                         to:basketItem.dates.to}))})
 
                         this.$store.dispatch('clearBasket')
+                        this.bookingAttempted =true
+
 
             } catch (error){
                 this.errors = error.response && error.response.data.errors;
