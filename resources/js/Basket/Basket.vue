@@ -10,7 +10,9 @@
                         name="first_name"
                         v-model="customer.first_name"
                         placeholder="First name"
+                        :class="[{'is-invalid':errorFor('customer.last_name')}]"
                     />
+                    <v-error :errors="errorFor('customer.last_name')"></v-error>
                 </div>
                  <div class="col-md-6 form-group">
                     <label for="last_name">Last name</label>
@@ -20,7 +22,9 @@
                         name="last_name"
                         v-model="customer.last_name"
                         placeholder="Last name"
+                        :class="[{'is-invalid':errorFor('customer.last_name')}]"
                     />
+                    <v-error :errors="errorFor('customer.last_name')"></v-error>
                 </div>
             </div>
             <div class="row">
@@ -31,32 +35,52 @@
                         class="form-control"
                         name="email"
                         v-model="customer.email"
+                        :class="[{'is-invalid':errorFor('customer.email')}]"
+
                     />
+                    <v-error :errors="errorFor('customer.email')"></v-error>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="street">Street</label>
-                    <input type="text" class="form-control" name="street"  v-model="customer.street">
+                    <input type="text" class="form-control" name="street"  
+                    v-model="customer.street"
+                    :class="[{'is-invalid':errorFor('customer.street')}]"
+                    >
+                    <v-error :errors="errorFor('customer.street')"></v-error>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="city">City</label>
-                    <input type="text" class="form-control" name="city" v-model="customer.city">
+                    <input type="text" class="form-control" name="city" v-model="customer.city"
+                    :class="[{'is-invalid':errorFor('customer.city')}]">
+                    <v-error :errors="errorFor('customer.city')"></v-error>
+
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="country">Country</label>
-                    <input type="text" class="form-control" name="country" v-model="customer.country">
+                    <input type="text" class="form-control" name="country" 
+                    v-model="customer.country"
+                    :class="[{'is-invalid':errorFor('customer.country')}]"
+                    >
+                    <v-error :errors="errorFor('customer.country')"></v-error>
                 </div>
                 <div class="col-md-4 form-group">
                     <label for="state">State</label>
-                    <input type="text" class="form-control" name="state" v-model="customer.state">
+                    <input type="text" class="form-control" name="state" v-model="customer.state" 
+                    :class="[{'is-invalid':errorFor('customer.state')}]"
+                    >
+                    <v-error :errors="errorFor('customer.state')"></v-error>
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="zip">Zip</label>
-                    <input type="text" class="form-control" name="zip" v-model="customer.zip">
+                    <input type="text" class="form-control" name="zip" v-model="customer.zip" 
+                    :class="[{'is-invalid':errorFor('customer.zip')}]"
+                    >
+                    <v-error :errors="errorFor('customer.zip')"></v-error>
                 </div>
             </div>
             <hr/>
@@ -153,6 +177,7 @@ export default {
     methods:{
         async book(){
             this.loading = true
+            this.errors = null
 
             try{
                 await axios.post('/api/checkout', 
@@ -162,10 +187,11 @@ export default {
                         bookable_id: basketItem.bookable.id,
                         from: basketItem.dates.from,
                         to:basketItem.dates.to}))})
-                        
+
                         this.$store.dispatch('clearBasket')
 
-            } catch (err){
+            } catch (error){
+                this.errors = error.response && error.response.data.errors;
 
             }
 
