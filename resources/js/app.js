@@ -16,6 +16,7 @@ import FatalError from './shared/components/FatalError.vue'
 import Success from './shared/components/Success.vue'
 import ValiadtionError from './shared/components/ValidationError.vue'
 import storeDefinition from './store'
+import Axios from 'axios';
 
 
 Vue.component('index', require('./index.vue').default);
@@ -38,7 +39,17 @@ const app = new Vue({
     el: '#app',
     store,
     router,
-   beforeCreate(){
+   async beforeCreate(){
        this.$store.dispatch('loaadStoredState')
+       await axios.get('/sanctum/csrf-cookie').then(response => {
+        // Login...
+        });
+        await axios.post('/login',{
+            email: 'hoyt48@example.net',
+            password: 'password'
+
+        })
+        await axios.get('/user')
+
    }
 });
