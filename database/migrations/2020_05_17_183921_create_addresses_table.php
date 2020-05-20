@@ -29,9 +29,6 @@ class CreateAddressesTable extends Migration
             $table->string('state');
             $table->string('zip', 30);
 
-
-
-
         });
     }
 
@@ -42,6 +39,8 @@ class CreateAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::table('addresses', function(Blueprint $table){
+            $table->dropIfExists('addresses');
+        });
     }
 }
