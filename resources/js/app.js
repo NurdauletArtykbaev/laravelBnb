@@ -41,6 +41,8 @@ const app = new Vue({
     router,
    async beforeCreate(){
        this.$store.dispatch('loaadStoredState')
+
+       //login компонентке жыбердык
     //    await axios.get('/sanctum/csrf-cookie').then(response => {
     //     // Login...
     //     });
