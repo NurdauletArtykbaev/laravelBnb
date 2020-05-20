@@ -77,7 +77,7 @@ export default {
             loading: false,
             //mixins validationError
             // errors: null,
-            status: null
+            status: null,
         };
     },
     methods: {
