@@ -26,6 +26,18 @@ Vue.component('fatal-error', FatalError);
 Vue.component('success', Success);
 Vue.component('v-error', ValiadtionError);
 
+window.axios.interceptors.response.use(
+    response =>{
+        return response
+    },
+    error => {
+        if(401===error.response.status){
+            store.dispatch('logout')
+        }
+        return Promise.reject(error)
+    }
+)
+
 
 
 Vue.use(VueRouter)

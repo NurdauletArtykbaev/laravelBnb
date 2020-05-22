@@ -79701,6 +79701,15 @@ Vue.component('star-rating', _shared_components_StarRaiting_vue__WEBPACK_IMPORTE
 Vue.component('fatal-error', _shared_components_FatalError_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
 Vue.component('success', _shared_components_Success_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
 Vue.component('v-error', _shared_components_ValidationError_vue__WEBPACK_IMPORTED_MODULE_8__["default"]);
+window.axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (401 === error.response.status) {
+    store.dispatch('logout');
+  }
+
+  return Promise.reject(error);
+});
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_3__["default"]);
 Vue.filter("fromNow", function (value) {
