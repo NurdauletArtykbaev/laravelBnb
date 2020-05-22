@@ -3,6 +3,18 @@
         <div class="card card-body">
             <form>
                 <div class="form-group">
+                    <label for="name">Name</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        placeholder="Enter your Name"
+                        :class="[{ 'is-invalid': errorFor('name') }]"
+                        v-model="email"
+                    />
+                    <v-error :errors="errorFor('name')"></v-error>
+                </div>
+                <div class="form-group">
                     <label for="email">E-mail</label>
                     <input
                         type="email"
@@ -26,27 +38,34 @@
                     />
                     <v-error :errors="errorFor('password')"> </v-error>
                 </div>
+                <div class="form-group">
+                    <label for="password_confirmation">Re-type Password</label>
+                    <input
+                        type="password"
+                        class="form-control"
+                        name="password_confirmation"
+                        placeholder="Confirm your password"
+                        :class="[{ 'is-invalid': errorFor('password_confirmation') }]"
+                        v-model="password"
+                    />
+                    <v-error :errors="errorFor('password_confirmation')"> </v-error>
+                </div>
             </form>
             <button
                 class="btn btn-primary btn-lg btn-block"
                 :disabled="loading"
-                @click.prevent="login"
+                @click.prevent="register"
             >
                 Log-in
             </button>
             <hr />
             <span
-                >No account?
-                <router-link :to="{ name: 'register' }" class="font-weight-bold"
-                    >Register</router-link
+                >Already have ann account?
+                <router-link :to="{ name: 'login' }" class="font-weight-bold"
+                    >Log-In</router-link
                 >
             </span>
-            <span
-                >Forgotten password?
-                <router-link :to="{ name: 'home' }" class="font-weight-bold"
-                    >Reset password</router-link
-                >
-            </span>
+
         </div>
     </div>
 </template>
@@ -58,20 +77,25 @@ export default {
     mixins: [validationError],
     data() {
         return {
-            email: null,
-            password: null,
+            user: {
+                name: null,
+                email: null,
+                password: null,
+                password_confirmation: null,
+            },
             loading: false
         };
     },
     methods: {
-        async login() {
+        async register() {
             this.loading = true;
             this.errors = null;
             try {
                 await axios.get("/sanctum/csrf-cookie").then(response => {
                     // Login...
                 });
-                await axios.post("/login", {
+                await axios.post("/register", {
+
                     email: this.email,
                     password: this.password
                 });
