@@ -23,7 +23,9 @@ class BookingsTableSeeder extends Seeder
 
                 $booking = Booking::make([
                     'from' => $from,
-                    'to' => $to
+                    'to' => $to,
+                    'price' => random_int(200,5000)
+
                 ]);
 
                 //bookings массивты толтырамыз
