@@ -4,9 +4,9 @@ export default{
     },
     methods:{
         errorFor(field) {
-            console.log('errors',null !== this.errors && this.errors[field]
-            ? this.errors[field]
-            : null)
+            // console.log('errors',null !== this.errors && this.errors[field]
+            // ? this.errors[field]
+            // : null)
             return null !== this.errors && this.errors[field]
                 ? this.errors[field]
                 : null;
