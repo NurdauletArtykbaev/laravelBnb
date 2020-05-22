@@ -10,7 +10,7 @@
                         name="name"
                         placeholder="Enter your Name"
                         :class="[{ 'is-invalid': errorFor('name') }]"
-                        v-model="email"
+                        v-model="user.name"
                     />
                     <v-error :errors="errorFor('name')"></v-error>
                 </div>
@@ -22,7 +22,7 @@
                         name="email"
                         placeholder="Enter your Email"
                         :class="[{ 'is-invalid': errorFor('email') }]"
-                        v-model="email"
+                        v-model="user.email"
                     />
                     <v-error :errors="errorFor('email')"></v-error>
                 </div>
@@ -34,7 +34,7 @@
                         name="password"
                         placeholder="Enter your password"
                         :class="[{ 'is-invalid': errorFor('password') }]"
-                        v-model="password"
+                        v-model="user.password"
                     />
                     <v-error :errors="errorFor('password')"> </v-error>
                 </div>
@@ -46,7 +46,7 @@
                         name="password_confirmation"
                         placeholder="Confirm your password"
                         :class="[{ 'is-invalid': errorFor('password_confirmation') }]"
-                        v-model="password"
+                        v-model="user.password_confirmation"
                     />
                     <v-error :errors="errorFor('password_confirmation')"> </v-error>
                 </div>
@@ -91,18 +91,12 @@ export default {
             this.loading = true;
             this.errors = null;
             try {
-                await axios.get("/sanctum/csrf-cookie").then(response => {
-                    // Login...
-                });
-                await axios.post("/register", {
-
-                    email: this.email,
-                    password: this.password
-                });
-                // await axios.get("/user");
-                logIn()
-                this.$store.dispatch('loadUser')
-                this.$router.push({name: 'home'})
+                const response =  await axios.post("/register", this.user);
+                if(201 == response.status){
+                    logIn()
+                    this.$store.dispatch('loadUser')
+                    this.$router.push({name: 'home'})
+                }
             } catch (error) {
                 this.errors = error.response && error.response.data.errors;
             }

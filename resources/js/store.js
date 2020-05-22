@@ -64,7 +64,7 @@ export default{
         async loadUser({commit, dispatch}){
             if(isLoggedIn()){
                 try{
-                    const user = (await axios.get('/api/user')).data
+                    const user = (await axios.get('/user')).data
                     commit('setUser', user),
                     commit('setLoggedIn', true)
                 }

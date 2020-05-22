@@ -2696,6 +2696,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2704,43 +2705,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.errors = null;
                 _context.prev = 2;
                 _context.next = 5;
-                return axios.get("/sanctum/csrf-cookie").then(function (response) {// Login...
-                });
+                return axios.post("/register", _this.user);
 
               case 5:
-                _context.next = 7;
-                return axios.post("/register", {
-                  email: _this.email,
-                  password: _this.password
-                });
+                response = _context.sent;
 
-              case 7:
-                // await axios.get("/user");
-                Object(_shared_utils_auth__WEBPACK_IMPORTED_MODULE_2__["logIn"])();
+                if (201 == response.status) {
+                  Object(_shared_utils_auth__WEBPACK_IMPORTED_MODULE_2__["logIn"])();
 
-                _this.$store.dispatch('loadUser');
+                  _this.$store.dispatch('loadUser');
 
-                _this.$router.push({
-                  name: 'home'
-                });
+                  _this.$router.push({
+                    name: 'home'
+                  });
+                }
 
-                _context.next = 15;
+                _context.next = 12;
                 break;
 
-              case 12:
-                _context.prev = 12;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context["catch"](2);
                 _this.errors = _context.t0.response && _context.t0.response.data.errors;
 
-              case 15:
+              case 12:
                 _this.loading = false;
 
-              case 16:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 12]]);
+        }, _callee, null, [[2, 9]]);
       }))();
     }
   }
@@ -62754,8 +62750,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.email,
-                  expression: "email"
+                  value: _vm.user.name,
+                  expression: "user.name"
                 }
               ],
               staticClass: "form-control",
@@ -62765,13 +62761,13 @@ var render = function() {
                 name: "name",
                 placeholder: "Enter your Name"
               },
-              domProps: { value: _vm.email },
+              domProps: { value: _vm.user.name },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.email = $event.target.value
+                  _vm.$set(_vm.user, "name", $event.target.value)
                 }
               }
             }),
@@ -62792,8 +62788,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.email,
-                  expression: "email"
+                  value: _vm.user.email,
+                  expression: "user.email"
                 }
               ],
               staticClass: "form-control",
@@ -62803,13 +62799,13 @@ var render = function() {
                 name: "email",
                 placeholder: "Enter your Email"
               },
-              domProps: { value: _vm.email },
+              domProps: { value: _vm.user.email },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.email = $event.target.value
+                  _vm.$set(_vm.user, "email", $event.target.value)
                 }
               }
             }),
@@ -62830,8 +62826,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.password,
-                  expression: "password"
+                  value: _vm.user.password,
+                  expression: "user.password"
                 }
               ],
               staticClass: "form-control",
@@ -62841,13 +62837,13 @@ var render = function() {
                 name: "password",
                 placeholder: "Enter your password"
               },
-              domProps: { value: _vm.password },
+              domProps: { value: _vm.user.password },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.password = $event.target.value
+                  _vm.$set(_vm.user, "password", $event.target.value)
                 }
               }
             }),
@@ -62870,8 +62866,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.password,
-                  expression: "password"
+                  value: _vm.user.password_confirmation,
+                  expression: "user.password_confirmation"
                 }
               ],
               staticClass: "form-control",
@@ -62881,13 +62877,17 @@ var render = function() {
                 name: "password_confirmation",
                 placeholder: "Confirm your password"
               },
-              domProps: { value: _vm.password },
+              domProps: { value: _vm.user.password_confirmation },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.password = $event.target.value
+                  _vm.$set(
+                    _vm.user,
+                    "password_confirmation",
+                    $event.target.value
+                  )
                 }
               }
             }),
@@ -81559,7 +81559,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.prev = 2;
                 _context.next = 5;
-                return axios.get('/api/user');
+                return axios.get('/user');
 
               case 5:
                 user = _context.sent.data;
