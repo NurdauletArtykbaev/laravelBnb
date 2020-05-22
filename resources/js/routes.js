@@ -23,6 +23,11 @@ import Basket from './Basket/Basket'
         path: '/basket',
         component: Basket,
         name: 'basket'
+    },
+    {
+        path: '/auth/login',
+        component: require('./auth/login.vue').default, //Альтернативакомпонента
+        name: 'login'
     }
  ];
 
